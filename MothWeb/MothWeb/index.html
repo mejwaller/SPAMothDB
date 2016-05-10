@@ -6,6 +6,38 @@
     <title>mothweb</title>
 </head>
 <body>
-    boo
+    <div>
+        <h2>Available dates</h2>
+        <select id="recordDate" onchange="getRecord();">
+            <!--http://stackoverflow.com/questions/4350937/html-select-dropdown-list/14406006#14406006-->
+            <option value="" disabled selected>Select a date</option>             
+        </select>
+    </div>
+    <div>
+        <h2>Event data</h2>
+        <p id="EventData" />
+    </div>
+
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
+    <script>
+    var uri = 'api/Records';
+
+    $(document).ready(function () {
+        // send an ajax request
+        $.getJSON(uri)
+            .done(function (data) {
+                // On success, 'data' should contain a list of of RecordEvents...
+                $.each(data, function(key, item) {
+                    //$('<option>', {text: item.Date}).appendTo($('#recordDate'));
+                    $('<option>', {value: item.Date, text: item.Date }).appendTo($('#recordDate'));
+                });
+            });
+    });
+
+    function getRecord() {
+        var date = $('#recordDate').find(":selected").text();
+        $('#EventData').text(date);
+    }
+    </script>
 </body>
 </html>
