@@ -16,7 +16,7 @@ namespace MothWeb.Models
         public string SubSpecies { get; set; }
         public string Aberration { get; set; }
         public string Form { get; set; }
-        public int count { get; set; }
+        public string count { get; set; }
         public string notes { get; set; }
 
     }
@@ -27,7 +27,7 @@ namespace MothWeb.Models
         public string RecordType { get; set; }
         public string GridRef { get; set; }
         public string Notes { get; set; }
-        public TaxonRecord[] Records { get; set; }
+        public List<TaxonRecord> Records { get; set; }
 
     }
 }

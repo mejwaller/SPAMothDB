@@ -97,12 +97,148 @@ namespace MothWeb.Controllers
 
             foreach(var item in result) {
                 RecordEvent rec = new RecordEvent();
+                rec.Records = new List<TaxonRecord>();
 
                 string raw = item.GetElement("Date").ToString();
-
                 DateTime dt = Convert.ToDateTime(raw.Substring(5, 20));
-
                 rec.Date=dt;
+
+                raw = item.GetElement("Type").ToString();
+                rec.RecordType = raw;
+
+                raw = item.GetElement("Grid Ref").ToString();
+                rec.GridRef = raw;
+                                
+                try{
+                    raw = item.GetElement("Notes").ToString();
+                    rec.Notes = raw;
+                }
+                catch(KeyNotFoundException)
+                {
+                    rec.Notes="";
+                }
+
+                
+                try
+                {
+                    var recs = item["records"].AsBsonArray;
+                    foreach (var entry in recs)
+                    {
+                        TaxonRecord spec = new TaxonRecord();                        
+
+                        try 
+                        {                            
+                            raw = entry["Vernacular Name"].ToString();
+                            spec.CommonName = raw;
+                            
+                        }
+                        catch(KeyNotFoundException)
+                        {
+                            spec.CommonName="";
+                        }
+                        try 
+                        {
+                            raw = entry["Order"].ToString();
+                            spec.Order = raw;
+                        }
+                        catch(KeyNotFoundException)
+                        {
+                            spec.Order = "";
+                        }
+                        try
+                        {
+                            raw = entry["Family"].ToString();
+                            spec.Family = raw;
+                        }
+                        catch (KeyNotFoundException)
+                        {
+                            spec.Family = "";
+                        }
+                        try
+                        {
+                            raw = entry["Subfamily"].ToString();
+                            spec.SubFamily = raw;
+                        }
+                        catch (KeyNotFoundException)
+                        {
+                            spec.SubFamily = "";
+                        }
+                        try
+                        {
+                            raw = entry["Genus"].ToString();
+                            spec.Genus = raw;
+                        }
+                        catch (KeyNotFoundException)
+                        {
+                            spec.Genus = "";
+                        }
+                        try
+                        {
+                            raw = entry["Species"].ToString();
+                            spec.Species = raw;
+                        }
+                        catch (KeyNotFoundException)
+                        {
+                            spec.Species = "";
+                        }
+                        try
+                        {
+                            raw = entry["Subspecies"].ToString();
+                            spec.SubSpecies = raw;
+                        }
+                        catch (KeyNotFoundException)
+                        {
+                            spec.SubSpecies = "";
+                        }
+                        try
+                        {
+                            raw = entry["Aberration"].ToString();
+                            spec.Aberration = raw;
+                        }
+                        catch (KeyNotFoundException)
+                        {
+                            spec.Aberration = "";
+                        }
+                        try
+                        {
+                            raw = entry["Form"].ToString();
+                            spec.Form = raw;
+                        }
+                        catch (KeyNotFoundException)
+                        {
+                            spec.Form = "";
+                        }
+                        try
+                        {
+                            raw = entry["Count"].ToString();
+                            spec.count = raw;
+                        }
+                        catch (KeyNotFoundException)
+                        {
+                            spec.count = "";
+                        }
+                        try
+                        {
+                            raw = entry["Notes"].ToString();
+                            spec.notes = raw;
+                        }
+                        catch (KeyNotFoundException)
+                        {
+                            spec.notes = "";
+                        }
+
+
+
+                        rec.Records.Add(spec);
+
+                    }
+
+                }
+                catch(KeyNotFoundException)
+                {
+
+                }
+                  
 
                 recsForDate.Add(rec);
             }

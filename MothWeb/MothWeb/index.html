@@ -40,9 +40,14 @@
         var date = $('#recordDate').find(":selected").text();
         $.getJSON(uri + '/date?fullDate=' + date)
             .done(function (data) {
-                // On success, 'data' should contain a list of date strings 'YYYY-MM-DD' ...
+                // On success, 'data' should contain the record event items...
                 $.each(data, function (key, item) {
+                    $('<ul>').appendTo($('#EventData'));
                     $('<li>', { text: "Date: " + item.Date }).appendTo($('#EventData'));
+                    $('<ul>').appendTo($('#EventData'));
+                    $('<li>', { text: item.RecordType }).appendTo($('#EventData'));                    
+                    $('<li>', { text: item.GridRef }).appendTo($('#EventData'));
+                    //$('<li>', { text: item.Records }).appendTo($('#EventData'));
                     //$('#EventData').text("Date: " + item.Date);
                 });
             });
